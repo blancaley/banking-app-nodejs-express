@@ -49,11 +49,13 @@ app.post("/api/register", async (req, res) => {
 app.post("/api/login", async (req, res) => {
   // Check if user exists in database
   const foundUser = await usersCollection.findOne({ 
-    username: req.body.username,
-    password: req.body.password
-  })
+    username: req.body.username
+  });
 
-  if(foundUser) {
+  // Check a password - compare with saved hash
+  const passMatches = await bcrypt.compare(req.body.password, foundUser.password);
+
+  if (passMatches) {
     // Save username in session cookie
     req.session.username = foundUser.username;
     res.json({
@@ -63,7 +65,7 @@ app.post("/api/login", async (req, res) => {
     // Return an error code and message
     res.status(401).json({ error: "Unauthorized" });
   }
-})
+});
 
 // Route to logout
 app.post("/api/logout", (req, res) => {
