@@ -113,12 +113,9 @@ app.get("/api/users/:id/accounts", async (req, res) => {
     { projection: { accounts: 1 } }
   );
   // Find each account in accountsCollection
-  const accounts = await Promise.all(
-    user.accounts.map(async accountID => {
-    const acc = await accountsCollection.findOne({ _id: accountID})
-    return acc
-  }))
-  
+  const accountPromises = 
+    user.accounts.map(accountID => accountsCollection.findOne({ _id: accountID}))
+  const accounts = await Promise.all(accountPromises);
   res.json(accounts);
 })
 
