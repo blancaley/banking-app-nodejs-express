@@ -105,6 +105,28 @@ app.get("/api/accounts", async (req, res) => {
   res.json(accounts);
 })
 
+// Route to get all bank accounts for specific user
+app.get("/api/users/:id/accounts", async (req, res) => {
+  // Get accounts array from user
+  const user = await usersCollection.findOne(
+    { _id: ObjectId(req.params.id) },
+    { projection: { accounts: 1 } }
+  );
+  // Find each account in accountsCollection
+  const accounts = await Promise.all(
+    user.accounts.map(async accountID => {
+    const acc = await accountsCollection.findOne({ _id: accountID})
+    return acc
+  }))
+  
+  res.json(accounts);
+})
+
+// Route to delete a bank account
+// app.delete("/api/users/:id/accounts/:id", async (req, res) => {
+
+// })
+
 app.listen(port, () => {
   console.log(`Listening on port ${port}`)
 })
