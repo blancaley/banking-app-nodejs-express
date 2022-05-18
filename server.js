@@ -2,6 +2,7 @@ import express from "express";
 import { MongoClient } from "mongodb";
 import session from "express-session";
 import bcrypt from "bcrypt";
+import { v4 as uuidv4 } from 'uuid';
 
 const port = 3000;
 const app = express();
@@ -33,9 +34,7 @@ app.post("/api/register", async (req, res) => {
   const hash = await bcrypt.hash(req.body.password, saltRounds);
 
   await usersCollection.insertOne({
-    username: req.body.username,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
+    ...req.body,
     password: hash
   });
 
@@ -78,6 +77,16 @@ app.post("/api/logout", (req, res) => {
 
 // Bank account logic
 // Route to create a new account
+app.post("/api/accounts", async (req, res) => {
+  const account = await accountsCollection.insertOne({
+    _id: uuidv4(),
+    ...req.body
+  });
+
+  const inserted = await accountsCollection.findOne({_id: account.insertedId});
+
+  res.json(inserted);
+});
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`)
