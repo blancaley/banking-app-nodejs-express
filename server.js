@@ -77,7 +77,7 @@ app.post("/api/logout", (req, res) => {
 
 // Bank account logic
 // Route to create a new account
-app.post("/api/users/:id/account", async (req, res) => {
+app.post("/api/users/:id/accounts", async (req, res) => {
   // Create unique ID
   const accountID = uuidv4();
   // Create new account
@@ -98,6 +98,12 @@ app.post("/api/users/:id/account", async (req, res) => {
   
   res.json({ accountCreated: true });
 });
+
+// Route to get all bank accounts
+app.get("/api/accounts", async (req, res) => {
+  const accounts = await accountsCollection.find().toArray();
+  res.json(accounts);
+})
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`)
