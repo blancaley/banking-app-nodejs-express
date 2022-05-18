@@ -1,5 +1,5 @@
 import express from "express";
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 import session from "express-session";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from 'uuid';
@@ -77,15 +77,26 @@ app.post("/api/logout", (req, res) => {
 
 // Bank account logic
 // Route to create a new account
-app.post("/api/accounts", async (req, res) => {
+app.post("/api/users/:id/account", async (req, res) => {
+  // Create unique ID
+  const accountID = uuidv4();
+  // Create new account
   const account = await accountsCollection.insertOne({
-    _id: uuidv4(),
+    _id: accountID,
     ...req.body
   });
 
-  const inserted = await accountsCollection.findOne({_id: account.insertedId});
+  // Connect account to user by adding account ID in array
+  await usersCollection.updateOne(
+    {_id: ObjectId(req.params.id)}, 
+    {$push: { "accounts": accountID}
+  })
 
-  res.json(inserted);
+  // For responding with user and new account info
+  const user = await usersCollection.findOne({_id: ObjectId(req.params.id)});
+  const insertedAccount = await accountsCollection.findOne({_id: account.insertedId});
+  
+  res.json({ accountCreated: true });
 });
 
 app.listen(port, () => {
