@@ -24,7 +24,6 @@ app.use(session({
   }
  }));
 
-
 // Authentication
 // Route to create a new user
 app.post("/api/register", async (req, res) => {
@@ -34,6 +33,25 @@ app.post("/api/register", async (req, res) => {
     success: true,
     username: req.body.username
   })
+})
+
+app.post("/api/login", async (req, res) => {
+  // Check if user exists in database
+  const foundUser = await usersCollection.findOne({ 
+    username: req.body.username,
+    password: req.body.password
+  })
+
+  if(foundUser) {
+    // Save username in session cookie
+    req.session.username = foundUser.username;
+    res.json({
+      username: foundUser.username
+    });
+  } else {
+    // Return an error code and message
+    res.status(401).json({ error: "Unauthorized" });
+  }
 })
 
 // Bank account logic
