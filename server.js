@@ -65,6 +65,15 @@ app.post("/api/login", async (req, res) => {
   }
 })
 
+// Route to logout
+app.post("/api/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.json({
+      loggedin: false
+    });
+  });
+});
+
 // Bank account logic
 // Route to create a new account
 
