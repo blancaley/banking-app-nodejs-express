@@ -1,4 +1,5 @@
 import express from "express";
+import { MongoClient } from "mongodb";
 
 const port = 3000;
 const app = express();
@@ -13,6 +14,17 @@ const accountsCollection = db.collection("accounts");
 // Middlewares
 app.use(express.json());
 app.use(express.static("public"));
+
+// Authentication
+// Route to create a new user
+app.post("/api/register", async (req, res) => {
+  await usersCollection.insertOne(req.body);
+
+  res.json({
+    success: true,
+    username: req.body.username
+  })
+})
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`)
