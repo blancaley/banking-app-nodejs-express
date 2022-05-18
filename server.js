@@ -1,6 +1,7 @@
 import express from "express";
 import { MongoClient } from "mongodb";
 import session from "express-session";
+import bcrypt from "bcrypt";
 
 const port = 3000;
 const app = express();
@@ -27,7 +28,16 @@ app.use(session({
 // Authentication
 // Route to create a new user
 app.post("/api/register", async (req, res) => {
-  await usersCollection.insertOne(req.body);
+  // Encrypt password
+  const saltRounds = 5;
+  const hash = await bcrypt.hash(req.body.password, saltRounds);
+
+  await usersCollection.insertOne({
+    username: req.body.username,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    password: hash
+  });
 
   res.json({
     success: true,
@@ -35,6 +45,7 @@ app.post("/api/register", async (req, res) => {
   })
 })
 
+// Route to log in
 app.post("/api/login", async (req, res) => {
   // Check if user exists in database
   const foundUser = await usersCollection.findOne({ 
