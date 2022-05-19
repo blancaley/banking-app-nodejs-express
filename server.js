@@ -112,7 +112,7 @@ app.get("/api/users/:id/accounts", async (req, res) => {
     { _id: ObjectId(req.params.id) },
     { projection: { accounts: 1 } }
   );
-  // Find each account in accountsCollection
+  // Find each account in accountsCollection database
   const accountPromises = 
     user.accounts.map(accountID => accountsCollection.findOne({ _id: accountID}))
   const accounts = await Promise.all(accountPromises);
@@ -120,9 +120,19 @@ app.get("/api/users/:id/accounts", async (req, res) => {
 })
 
 // Route to delete a bank account
-// app.delete("/api/users/:id/accounts/:id", async (req, res) => {
+app.delete("/api/users/:id/accounts/:accID", async (req, res) => {
+  // Delete account from accountsCollection
+  await accountsCollection.deleteOne({_id: req.params.accID})
+  // Delete account reference from user object
+  await usersCollection.updateOne(
+    {_id: ObjectId(req.params.id)},
+    {$pull: { "accounts": req.params.accID}}
+  );
 
-// })
+  res.json({
+    success: true
+  })
+})
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`)
