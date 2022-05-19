@@ -99,7 +99,7 @@ app.post("/api/users/:id/accounts", async (req, res) => {
   res.json({ accountCreated: true });
 });
 
-// Route to get all bank accounts
+// Route to get all bank accounts - t.ex. for admin role
 app.get("/api/accounts", async (req, res) => {
   const accounts = await accountsCollection.find().toArray();
   res.json(accounts);
@@ -119,6 +119,23 @@ app.get("/api/users/:id/accounts", async (req, res) => {
   res.json(accounts);
 })
 
+// Route to add amount
+app.post("/api/accounts/:id/add", async (req, res) => {
+  const amountToAdd = req.body.amount;
+  const currentAmount = await accountsCollection.findOne(
+    {_id: req.params.id }
+  )
+  const total = amountToAdd + currentAmount.amount;
+
+  await accountsCollection.updateOne(
+    {_id: req.params.id},
+    { $set: { "amount": total }}
+  )
+  res.json({
+    totalAmount: total
+  });
+})
+
 // Route to delete a bank account
 app.delete("/api/users/:id/accounts/:accID", async (req, res) => {
   // Delete account from accountsCollection
@@ -131,7 +148,7 @@ app.delete("/api/users/:id/accounts/:accID", async (req, res) => {
 
   res.json({
     success: true
-  })
+  });
 })
 
 app.listen(port, () => {
