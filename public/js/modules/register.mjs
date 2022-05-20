@@ -1,5 +1,3 @@
-import { welcomeMsg } from "./constants.mjs"
-
 const signUpUsername = document.getElementById("signUpUsername");
 const firstName = document.getElementById("firstName");
 const lastName = document.getElementById("lastName");
@@ -20,7 +18,7 @@ const register = async () => {
   });
 
   const data = await res.json();
-  welcomeMsg.innerHTML = `Thanks for registering ${data.firstName}!`;
+  return data;
 }
 
 export { register }

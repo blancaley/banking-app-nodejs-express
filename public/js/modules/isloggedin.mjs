@@ -1,17 +1,12 @@
-import { loginForm, registerForm, logoutForm, welcomeMsg } from "./constants.mjs"
+import { renderLoggedInPage, renderPublicPage } from "./render.mjs"
 
 const isLoggedIn = async () => {
   const res = await fetch("/api/loggedin");
-  const data = await res.json();
-
-  if (data.username) {
-    welcomeMsg.innerText = `Welcome ${data.firstName}`
-    logoutForm.hidden = false;
-    loginForm.hidden = true;
-    registerForm.hidden = true;
+  const user = await res.json();
+  if (user.username) {
+    renderLoggedInPage(user);
   } else {
-    // Hide logout button if user is not logged in!
-    logoutForm.hidden = true;
+    renderPublicPage();
   }
 }
 
