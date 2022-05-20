@@ -40,7 +40,8 @@ app.post("/api/register", async (req, res) => {
 
   res.json({
     success: true,
-    username: req.body.username
+    username: req.body.username,
+    firstName: req.body.firstName
   })
 })
 
