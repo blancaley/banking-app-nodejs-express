@@ -33,16 +33,21 @@ app.post("/api/register", async (req, res) => {
   const saltRounds = 5;
   const hash = await bcrypt.hash(req.body.password, saltRounds);
 
+  // Save new user in database
   await usersCollection.insertOne({
     ...req.body,
     password: hash
   });
 
+  // Log in direct by saving username and first name in session cookie
+  req.session.username = req.body.username;
+  req.session.firstName = req.body.firstName
+
   res.json({
     success: true,
     username: req.body.username,
     firstName: req.body.firstName
-  })
+  });
 })
 
 // Route to log in
