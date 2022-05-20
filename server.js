@@ -70,6 +70,17 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
+// Route to check if user is logged in
+app.get("/api/loggedin", async (req, res) => {
+  if (!req.session.username) { 
+    return res.status(401).json({ error: "Unauthorized" }); 
+  }
+
+  res.json({
+    username: req.session.username
+  })
+})
+
 // Route to logout
 app.post("/api/logout", (req, res) => {
   req.session.destroy(() => {
