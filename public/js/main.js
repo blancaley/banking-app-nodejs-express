@@ -1,10 +1,8 @@
+import { loginForm, registerForm, logoutForm } from "./modules/constants.mjs"
 import { logIn } from "./modules/login.mjs"
 import { register } from "./modules/register.mjs"
 import { logOut } from "./modules/logout.mjs"
-
-const loginForm = document.getElementById("login");
-const registerForm = document.getElementById("register");
-const logoutForm = document.getElementById("logout");
+import { isLoggedIn } from "./modules/isloggedin.mjs"
 
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -20,3 +18,6 @@ logoutForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   await logOut();
 });
+
+// Check if user is logged in every time page reloads
+isLoggedIn();
