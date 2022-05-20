@@ -119,13 +119,13 @@ app.get("/api/users/:id/accounts", async (req, res) => {
   res.json(accounts);
 })
 
-// Route to add amount
-app.post("/api/accounts/:id/add", async (req, res) => {
+// Route to deposit amount
+app.post("/api/accounts/:id/deposit", async (req, res) => {
   const amountToAdd = req.body.amount;
   const currentAmount = await accountsCollection.findOne(
     {_id: req.params.id }
   )
-  const total = amountToAdd + currentAmount.amount;
+  const total = currentAmount.amount + amountToAdd;
 
   await accountsCollection.updateOne(
     {_id: req.params.id},
@@ -134,6 +134,32 @@ app.post("/api/accounts/:id/add", async (req, res) => {
   res.json({
     totalAmount: total
   });
+})
+
+// Route to withdraw
+app.post("/api/accounts/:id/withdraw", async (req, res) => {
+  const amountToWithdraw = req.body.amount;
+  const currentAmount = await accountsCollection.findOne(
+    {_id: req.params.id }
+  )
+  const total = currentAmount.amount - amountToWithdraw;
+  // Check so it's not possible to withdraw more money than what's in the account
+  if (total || total === 0) {
+    await accountsCollection.updateOne(
+      {_id: req.params.id},
+      { $set: { "amount": total }}
+    )
+    res.json({
+      withdrawed: true,
+      totalAmount: total
+    });
+  } else {
+    res.json({
+      error: "Withdrawal not completed. Amount is larger than amount in account. Try to withdraw a lower amount.",
+      currentAmount: currentAmount.amount,
+      withdrawed: false
+    });
+  }
 })
 
 // Route to delete a bank account
