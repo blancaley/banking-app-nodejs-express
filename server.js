@@ -46,19 +46,22 @@ app.post("/api/register", async (req, res) => {
 
 // Route to log in
 app.post("/api/login", async (req, res) => {
-  // Check if user exists in database
-  const foundUser = await usersCollection.findOne({ 
+  const user = await usersCollection.findOne({ 
     username: req.body.username
   });
-
+  // Exit if user doesn't exist in database
+  if(!user) { 
+    // Return an error code and message
+    return res.status(404).json({ error: "User was not found." });
+  }
   // Check a password - compare with saved hash
-  const passMatches = await bcrypt.compare(req.body.password, foundUser.password);
+  const passMatches = await bcrypt.compare(req.body.password, user?.password);
 
-  if (passMatches) {
+  if (await passMatches) {
     // Save username in session cookie
-    req.session.username = foundUser.username;
+    req.session.username = user.username;
     res.json({
-      username: foundUser.username
+      username: user.username
     });
   } else {
     // Return an error code and message

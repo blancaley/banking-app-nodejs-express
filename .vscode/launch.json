@@ -1,0 +1,11 @@
+{
+  "configurations": [
+  {
+    "type": "node",
+    "request": "attach",
+    "name": "Launch Nodemon Debug",
+    "port": 3000,
+    "restart": true
+  }
+  ]
+}

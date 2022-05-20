@@ -1,3 +1,6 @@
+const usernameInput = document.getElementById("username");
+const passwordInput = document.getElementById("password");
+
 const logIn = async () => {
   await fetch("/api/login", {
     method: "POST",
@@ -8,7 +11,7 @@ const logIn = async () => {
       username: usernameInput.value,
       password: passwordInput.value
     })
-  })
+  });
 }
 
 export { logIn }
