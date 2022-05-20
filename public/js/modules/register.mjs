@@ -1,8 +1,9 @@
+import { welcomeMsg } from "./constants.mjs"
+
 const signUpUsername = document.getElementById("signUpUsername");
 const firstName = document.getElementById("firstName");
 const lastName = document.getElementById("lastName");
 const signUpPassword = document.getElementById("signUpPassword");
-const welcomeMsg = document.getElementById("welcomeMsg");
 
 const register = async () => {
   const res = await fetch("/api/register", {
