@@ -105,8 +105,8 @@ app.post("/api/users/:id/accounts", async (req, res) => {
   const accountID = uuidv4();
   // Create new account
   const account = await accountsCollection.insertOne({
-    _id: accountID,
-    ...req.body
+    ...req.body,
+    _id: accountID
   });
 
   // Connect account to user by adding account ID in array
@@ -119,7 +119,10 @@ app.post("/api/users/:id/accounts", async (req, res) => {
   const user = await usersCollection.findOne({_id: ObjectId(req.params.id)});
   const insertedAccount = await accountsCollection.findOne({_id: account.insertedId});
   
-  res.json({ accountCreated: true });
+  res.json({ 
+    accountCreated: true,
+    account: insertedAccount 
+  });
 });
 
 // Route to get all bank accounts - t.ex. for admin role

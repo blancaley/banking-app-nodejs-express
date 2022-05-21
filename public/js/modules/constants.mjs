@@ -9,5 +9,5 @@ export {
   registerForm, 
   logoutForm, 
   userPage, 
-  welcomeMsg 
+  welcomeMsg
 }

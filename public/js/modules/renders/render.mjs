@@ -1,4 +1,5 @@
 import { loginForm, registerForm, logoutForm, userPage, welcomeMsg } from "../constants.mjs"
+import { createAccount } from "../account/createAccount.mjs";
 
 const userProfileWrapper = document.getElementById("userProfile");
 const createAccountWrapper = document.getElementById("createAccount");
@@ -38,6 +39,12 @@ const renderLoggedInPage = (user) => {
     renderUserProfile();
     renderCreateAccounts();
     renderAccounts();
+
+    const createAccountForm = document.getElementById("createAccountForm");
+    createAccountForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      await createAccount();
+    })
 };
 
 const renderPublicPage = () => {
