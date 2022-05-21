@@ -1,4 +1,4 @@
-import { loginForm, registerForm, logoutForm, userPage, welcomeMsg } from "./constants.mjs"
+import { loginForm, registerForm, logoutForm, userPage, welcomeMsg } from "../constants.mjs"
 
 const userProfileWrapper = document.getElementById("userProfile");
 const createAccountWrapper = document.getElementById("createAccount");

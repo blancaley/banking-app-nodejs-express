@@ -1,8 +1,8 @@
 import { loginForm, registerForm, logoutForm } from "./modules/constants.mjs"
-import { logIn } from "./modules/login.mjs"
-import { register } from "./modules/register.mjs"
-import { logOut } from "./modules/logout.mjs"
-import { isLoggedIn } from "./modules/isloggedin.mjs"
+import { logIn } from "./modules/authentication/login.mjs"
+import { register } from "./modules/authentication/register.mjs"
+import { logOut } from "./modules/authentication/logout.mjs"
+import { isLoggedIn } from "./modules/authentication/isloggedin.mjs"
 
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();

@@ -1,4 +1,4 @@
-import { renderLoggedInPage, renderPublicPage } from "./render.mjs"
+import { renderLoggedInPage, renderPublicPage } from "../renders/render.mjs"
 
 const isLoggedIn = async () => {
   const res = await fetch("/api/loggedin");
