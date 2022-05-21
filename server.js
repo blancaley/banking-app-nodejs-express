@@ -60,13 +60,14 @@ app.post("/api/login", async (req, res) => {
     // Return an error code and message
     return res.status(404).json({ error: "User was not found." });
   }
-  // Check a password - compare with saved hash
+  // Check password - compare it with saved hash
   const passMatches = await bcrypt.compare(req.body.password, user?.password);
 
   if (await passMatches) {
-    // Save username and first name in session cookie
+    // Save username, first name and ID in session cookie
     req.session.username = user.username;
-    req.session.firstName = user.firstName
+    req.session.firstName = user.firstName;
+    req.session.userID = user._id.toString();
 
     res.json({
       username: user.username
@@ -85,7 +86,8 @@ app.get("/api/loggedin", async (req, res) => {
 
   res.json({
     username: req.session.username,
-    firstName: req.session.firstName
+    firstName: req.session.firstName,
+    userID: req.session.userID
   })
 })
 

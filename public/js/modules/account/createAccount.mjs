@@ -2,6 +2,8 @@ const createAccount = async () => {
   const accountName = document.getElementById("accountName");
   const amount = document.getElementById("amount");
 
+  // Get logged in user ID
+  
   const res = await fetch("/api/users/62879dfdd9cf9ad203bd8660/accounts", {
     method: "POST",
     headers: {
