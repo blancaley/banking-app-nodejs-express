@@ -153,14 +153,15 @@ app.post("/api/accounts/:id/deposit", async (req, res) => {
   const currentAmount = await accountsCollection.findOne(
     {_id: req.params.id }
   )
-  const total = currentAmount.amount + amountToAdd;
+  const total = parseInt(currentAmount.amount) + parseInt(amountToAdd);
 
   await accountsCollection.updateOne(
     {_id: req.params.id},
     { $set: { "amount": total }}
   )
   res.json({
-    totalAmount: total
+    totalAmount: total,
+    success: true
   });
 })
 

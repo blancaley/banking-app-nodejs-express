@@ -1,6 +1,8 @@
 import { deleteAccount } from "../account/deleteAccount.mjs"
 import { renderDepositForm } from "../renders/depositForm.mjs";
 import { renderUserAccounts } from "../renders/userAccounts.mjs";
+import { deposit } from "../account/deposit.mjs";
+import { renderDepositSuccess } from "../renders/depositSuccess.mjs";
 
 const setDelete = () => {
   const deletBtns = document.querySelectorAll(".deleteBtn");
@@ -12,9 +14,13 @@ const setDelete = () => {
 
 const setDeposit = () => {
   const depositForm = document.getElementById("depositForm");
-  depositForm.addEventListener("submit", (e) => {
+  depositForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     console.log("On the way to depositing")
+    const res = await deposit(e);
+    if (res.success) {
+      renderDepositSuccess();
+    }
   })
 }
 
