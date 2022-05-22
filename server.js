@@ -191,12 +191,14 @@ app.post("/api/accounts/:id/withdraw", async (req, res) => {
 })
 
 // Route to delete a bank account
-app.delete("/api/users/:id/accounts/:accID", async (req, res) => {
+app.delete("/api/accounts/:accID", async (req, res) => {
   // Delete account from accountsCollection
   await accountsCollection.deleteOne({_id: req.params.accID})
   // Delete account reference from user object
   await usersCollection.updateOne(
-    {_id: ObjectId(req.params.id)},
+    // Find user that has specific account ID
+    {accounts: req.params.accID},
+    // Remove account from accounts array
     {$pull: { "accounts": req.params.accID}}
   );
 
