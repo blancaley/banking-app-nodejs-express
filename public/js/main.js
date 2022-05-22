@@ -2,7 +2,7 @@ import { loginForm, registerForm, logoutForm } from "./modules/constants.mjs"
 import { logIn } from "./modules/authentication/login.mjs"
 import { register } from "./modules/authentication/register.mjs"
 import { logOut } from "./modules/authentication/logout.mjs"
-import { isLoggedIn } from "./modules/authentication/isloggedin.mjs"
+import { render } from "./modules/renders/renderIsLoggedIn.mjs"
 
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -22,5 +22,5 @@ logoutForm.addEventListener("submit", async (e) => {
   location.reload();
 });
 
-// Check if user is logged in every time page reloads
-isLoggedIn();
+// Render UI by checking if user is logged in every time page reloads
+render();
