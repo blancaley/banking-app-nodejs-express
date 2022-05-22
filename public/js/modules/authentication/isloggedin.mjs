@@ -1,12 +1,13 @@
-import { renderLoggedInPage, renderPublicPage } from "../renders/render.mjs"
-
 const isLoggedIn = async () => {
-  const res = await fetch("/api/loggedin");
-  const user = await res.json();
-  if (user.username) {
-    renderLoggedInPage(user);
-  } else {
-    renderPublicPage();
+  try {
+    const res = await fetch("/api/loggedin");
+    if (res.status === 401) {
+      throw new Error('Unauthorized')
+    }
+    const user = await res.json();
+    return user;
+  } catch (error) {
+    return false;
   }
 }
 
