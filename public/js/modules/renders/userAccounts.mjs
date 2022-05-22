@@ -1,6 +1,5 @@
 import { getUserAccounts } from "../account/getUserAccounts.mjs";
-import { deleteAccount } from "../account/deleteAccount.mjs"
-import { renderDepositForm } from "./depositForm.mjs";
+import { setEditAccountEventListeners } from "../eventListeners/account.mjs";
 
 const renderUserAccounts = async () => {
   const userAccountsList = document.getElementById("userAccountsList");
@@ -25,24 +24,7 @@ const renderUserAccounts = async () => {
   }).join("");
 
   userAccountsList.innerHTML = accountsHTMLString;
-
-  const deletBtns = document.querySelectorAll(".deleteBtn");
-  const openDepositFormBtns = document.querySelectorAll(".openDepositFormBtn");
-
-  deletBtns.forEach(btn => btn.addEventListener("click", async (e) => {
-    deleteAccount(e);
-    await renderUserAccounts();
-  }));
-
-  openDepositFormBtns.forEach(btn => btn.addEventListener("click", async (e) => {
-    renderDepositForm();
-
-    const depositForm = document.getElementById("depositForm");
-    depositForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      console.log("On the way to depositing")
-    })
-  }));
+  setEditAccountEventListeners();
 }
 
 export { renderUserAccounts }
