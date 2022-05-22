@@ -1,6 +1,5 @@
 const userProfileWrapper = document.getElementById("userProfile");
 const createAccountWrapper = document.getElementById("createAccount");
-const userAccountsWrapper = document.getElementById("userAccounts");
 
 const renderUserProfile = () => {
   userProfileWrapper.innerHTML =
@@ -21,9 +20,4 @@ const renderCreateAccounts = () => {
   </form>`
 }
 
-const renderAccounts = () => {
-  userAccountsWrapper.innerHTML =
-  `Test account list`
-}
-
-export { renderUserProfile, renderCreateAccounts, renderAccounts }
+export { renderUserProfile, renderCreateAccounts }

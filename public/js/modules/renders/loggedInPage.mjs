@@ -1,7 +1,7 @@
 import { loginForm, registerForm, logoutForm, userPage, welcomeMsg } from "../constants.mjs"
-import { renderUserProfile, renderCreateAccounts, renderAccounts } from "./renderComponents.mjs"
+import { renderUserProfile, renderCreateAccounts } from "./renderComponents.mjs"
 import { createAccount } from "../account/createAccount.mjs";
-
+import { renderUserAccounts } from "./userAccounts.mjs"
 
 const renderLoggedInPage = (user) => {
   // User has username, firstName and ID
@@ -13,12 +13,13 @@ const renderLoggedInPage = (user) => {
 
   renderUserProfile();
   renderCreateAccounts();
-  renderAccounts();
+  renderUserAccounts();
 
   const createAccountForm = document.getElementById("createAccountForm");
   createAccountForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     await createAccount();
+    await renderUserAccounts();
   })
 };
 

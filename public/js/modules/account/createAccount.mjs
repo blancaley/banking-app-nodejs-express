@@ -1,8 +1,8 @@
 import { isLoggedIn } from "../authentication/isloggedin.mjs";
 
 const createAccount = async () => {
-  const accountName = document.getElementById("accountName");
-  const amount = document.getElementById("amount");
+  const accountNameInput = document.getElementById("accountName");
+  const amountInput = document.getElementById("amount");
 
   // Get user info from cookie session
   const user = await isLoggedIn();
@@ -13,10 +13,13 @@ const createAccount = async () => {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      name: accountName.value,
-      amount: amount.value
+      name: accountNameInput.value,
+      amount: amountInput.value
     })
   });
+
+  accountNameInput.value = "";
+  amountInput.value = "";
 
   const data = await res.json();
   return data;
