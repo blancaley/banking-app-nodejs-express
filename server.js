@@ -26,6 +26,15 @@ app.use(session({
   }
  }));
 
+// Custom middleware to check if user is admin.
+const allowOnlyAdmin = (req, res, next) => {
+  if (req.session.role === "admin") {
+    next();
+  } else {
+    res.status(401).send({ error: "Unauthorized" });
+  }
+}
+
 // Authentication
 // Route to create a new user
 app.post("/api/register", async (req, res) => {
@@ -128,7 +137,7 @@ app.post("/api/users/:id/accounts", async (req, res) => {
 });
 
 // Route to get all bank accounts - t.ex. for admin role
-app.get("/api/accounts", async (req, res) => {
+app.get("/api/accounts", allowOnlyAdmin, async (req, res) => {
   const accounts = await accountsCollection.find().toArray();
   res.json(accounts);
 })
