@@ -1,5 +1,6 @@
 import { loginForm, registerForm, loggedinNav, userPage, welcomeMsg, allAccounts } from "../constants.mjs"
-import { renderUserProfile, renderCreateAccounts } from "./renderComponents.mjs"
+import { renderUserProfile } from "./userProfile.mjs"
+import { renderCreateAccounts } from "./renderComponents.mjs"
 import { createAccount } from "../account/createAccount.mjs";
 import { renderUserAccounts } from "./userAccounts.mjs"
 import { renderAllAccounts } from "./allAccounts.mjs";
@@ -11,8 +12,9 @@ const renderLoggedInPage = (user) => {
   allAccounts.hidden = true;
 
   userPage.hidden = false;
-  welcomeMsg.innerText = `Welcome ${user.firstName}`
   loggedinNav.hidden = false;
+
+  welcomeMsg.innerText = `Welcome ${user.firstName}`
 
   renderUserProfile();
   renderCreateAccounts();
