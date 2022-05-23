@@ -6,12 +6,17 @@ import { deposit } from "../account/deposit.mjs";
 import { withdraw } from "../account/withdraw.mjs";
 import { renderDepositSuccess } from "../renders/depositSuccess.mjs";
 import { renderWithdrawSuccess } from "../renders/withdrawSuccess.mjs";
+import { renderAllAccounts } from "../renders/allAccounts.mjs";
 
 const setDelete = () => {
   const deletBtns = document.querySelectorAll(".deleteBtn");
   deletBtns.forEach(btn => btn.addEventListener("click", async (e) => {
     deleteAccount(e);
     await renderUserAccounts();
+    // If its from all accounts list, re-render all accounts list
+    if (e.target.closest("#allAccountsList")) {
+      renderAllAccounts();
+    }
   }));
 }
 
@@ -57,6 +62,10 @@ const setDoneBtn = (e) => {
   const doneTransferBtn = document.getElementById("doneTransferBtn");
   doneTransferBtn.addEventListener("click", () => {
     renderUserAccounts();
+    // If its from all accounts list, re-render all accounts list
+    if (e.target.closest("#allAccountsList")) {
+      renderAllAccounts();
+    }
   })
 }
 
