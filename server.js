@@ -28,7 +28,7 @@ app.use(session({
 
 // Custom middleware to check if user is admin.
 const allowOnlyAdmin = (req, res, next) => {
-  if (req.session.role === "admin") {
+  if (req.session.admin) {
     next();
   } else {
     res.status(401).send({ error: "Unauthorized" });
@@ -50,7 +50,8 @@ app.post("/api/register", async (req, res) => {
 
   // Log in direct by saving username and first name in session cookie
   req.session.username = req.body.username;
-  req.session.firstName = req.body.firstName
+  req.session.firstName = req.body.firstName;
+  req.session.admin = req.body.adminRole;
 
   res.json({
     success: true,
