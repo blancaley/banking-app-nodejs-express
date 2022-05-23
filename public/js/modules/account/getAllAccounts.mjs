@@ -1,6 +1,7 @@
 const getAllAccounts = async () => {
   const accounts = await fetch(`/api/accounts`);
-  return accounts.json();
+  const data = await accounts.json();
+  return data;
 }
 
 export { getAllAccounts }
