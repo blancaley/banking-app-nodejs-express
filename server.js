@@ -144,11 +144,17 @@ app.get("/api/accounts", allowOnlyAdmin, async (req, res) => {
 
 // Route to get all bank accounts for specific user
 app.get("/api/users/:id/accounts", async (req, res) => {
-  // Get accounts array from user
+  // Get user
   const user = await usersCollection.findOne(
-    { _id: ObjectId(req.params.id) },
-    { projection: { accounts: 1 } }
+    { _id: ObjectId(req.params.id) }
   );
+  
+  // Return error if user doesn't have accounts
+  if (!user.accounts || user.accounts.length === 0) {
+    return res.json({
+      error: "User doesn't have any account."
+    })
+  }
   // Find each account in accountsCollection database
   const accountPromises = 
     user.accounts.map(accountID => accountsCollection.findOne({ _id: accountID}))
