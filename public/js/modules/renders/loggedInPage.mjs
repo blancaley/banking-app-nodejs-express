@@ -1,4 +1,4 @@
-import { loginForm, registerForm, logoutForm, userPage, welcomeMsg } from "../constants.mjs"
+import { loginForm, registerForm, loggedinNav, userPage, welcomeMsg } from "../constants.mjs"
 import { renderUserProfile, renderCreateAccounts } from "./renderComponents.mjs"
 import { createAccount } from "../account/createAccount.mjs";
 import { renderUserAccounts } from "./userAccounts.mjs"
@@ -9,7 +9,7 @@ const renderLoggedInPage = (user) => {
   registerForm.hidden = true;
   userPage.hidden = false;
   welcomeMsg.innerText = `Welcome ${user.firstName}`
-  logoutForm.hidden = false;
+  loggedinNav.hidden = false;
 
   renderUserProfile();
   renderCreateAccounts();
