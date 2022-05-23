@@ -7,6 +7,8 @@ const userPage = document.getElementById("userPage");
 const welcomeMsg = document.getElementById("welcomeMsg");
 const allAccounts = document.getElementById("allAccounts");
 const allAccountsListContainer = document.getElementById("allAccountsList");
+const userAccountsListContainer = document.getElementById("userAccountsList");
+
 
 export { 
   loginForm, 
@@ -17,5 +19,6 @@ export {
   userPage, 
   welcomeMsg,
   allAccounts,
-  allAccountsListContainer
+  allAccountsListContainer,
+  userAccountsListContainer
 }
