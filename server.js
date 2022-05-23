@@ -74,10 +74,11 @@ app.post("/api/login", async (req, res) => {
   const passMatches = await bcrypt.compare(req.body.password, user?.password);
 
   if (await passMatches) {
-    // Save username, first name and ID in session cookie
+    // Save username, first name ID and admin role in session cookie
     req.session.username = user.username;
     req.session.firstName = user.firstName;
     req.session.userID = user._id.toString();
+    req.session.admin = user.adminRole;
 
     res.json({
       username: user.username
@@ -97,7 +98,8 @@ app.get("/api/loggedin", async (req, res) => {
   res.json({
     username: req.session.username,
     firstName: req.session.firstName,
-    userID: req.session.userID
+    userID: req.session.userID,
+    admin: req.session.admin
   })
 })
 
