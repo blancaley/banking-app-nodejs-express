@@ -112,6 +112,16 @@ app.post("/api/logout", (req, res) => {
   });
 });
 
+// Route to get specific user
+app.get("/api/users/:id", async (req, res) => {
+  // Get user
+  const user = await usersCollection.findOne(
+    { _id: ObjectId(req.params.id) }
+  );
+
+  res.json(user);
+})
+
 // Bank account logic
 // Route to create a new account
 app.post("/api/users/:id/accounts", async (req, res) => {
