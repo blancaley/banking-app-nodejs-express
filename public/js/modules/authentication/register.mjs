@@ -2,6 +2,7 @@ const signUpUsername = document.getElementById("signUpUsername");
 const firstName = document.getElementById("firstName");
 const lastName = document.getElementById("lastName");
 const signUpPassword = document.getElementById("signUpPassword");
+const adminRole = document.getElementById("adminRole");
 
 const register = async () => {
   const res = await fetch("/api/register", {
@@ -13,7 +14,8 @@ const register = async () => {
       username: signUpUsername.value,
       firstName: firstName.value,
       lastName: lastName.value,
-      password: signUpPassword.value    
+      password: signUpPassword.value,
+      adminRole: adminRole.checked
     })
   });
 
