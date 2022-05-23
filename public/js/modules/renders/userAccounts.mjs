@@ -17,7 +17,7 @@ const renderUserAccounts = async () => {
         <div id="accountTransfers"></div>
         <div id="accountBtns">
           <button class="openDepositFormBtn">+ Deposit</button>
-          <button class="withdrawBtn">- Withdraw</button>
+          <button class="openWithdrawFormBtn">- Withdraw</button>
           <button class="deleteBtn" data-accid=${_id}>Delete</button>
         </div>
       </div>

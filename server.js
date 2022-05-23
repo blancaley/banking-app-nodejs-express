@@ -179,14 +179,14 @@ app.post("/api/accounts/:id/withdraw", async (req, res) => {
       { $set: { "amount": total }}
     )
     res.json({
-      withdrawed: true,
+      success: true,
       totalAmount: total
     });
   } else {
-    res.json({
+    res.status().json({
       error: "Withdrawal not completed. Amount is larger than amount in account. Try to withdraw a lower amount.",
       currentAmount: currentAmount.amount,
-      withdrawed: false
+      success: false
     });
   }
 })
